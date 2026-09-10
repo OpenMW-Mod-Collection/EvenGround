@@ -1,0 +1,7 @@
+MENU: scripts/EvenGround/utils/sorresRenderers.lua
+MENU: scripts/EvenGround/utils/multiCheckbox.lua
+MENU: scripts/EvenGround/utils/textSet.lua
+
+MENU: scripts/EvenGround/settingsMenu.lua
+GLOBAL: scripts/EvenGround/settingsGlobal.lua
+GLOBAL: scripts/EvenGround/global.lua

@@ -1,0 +1,50 @@
+page_name: Even Ground
+page_desc: >
+  This mod distributes racial powers and birthsigns to NPCs.
+  They don't have to be combat-oriented.
+
+toggles_groupName: Toggles
+enabled_name: Enable
+enabled_desc: |
+  NPC can get Birthsign Powers only if they get a Birthsign first.
+
+  Birthsigns are picked randomly.
+racialPowers: Racial Powers
+birthsigns: Birthsigns
+birthsignPowers: Birthsign Powers
+log_name: Enable Debug Logging
+
+chances_groupName: Chances
+chances_groupDesc: |
+  General formula for any roll (0-100%) is:
+
+  BaseChance + Level * LevelMult
+baseChance: Base Chance
+levelMult: Level Mult
+minChance: Min Chance
+maxChance: Max Chance
+racialPower_name: Racial Powers
+racialPower_desc: |
+  Rolled only if the race has powers.
+
+  If there are multiple powers, each is rolled individually.
+birthsign_name: Birthsings
+birthsign_desc: Always gets rolled.
+birthsignPower_name: Birthsign Powers
+birthsignPower_desc: |
+  Rolled only if NPC gets a birthsign.
+
+  If there are multiple powers, each is rolled individually.
+
+lists_groupName: Lists
+blacklist_name: NPC Blacklist
+blacklist_desc: |
+  Blacklist NPCs from getting any racial powers, a birthsign and birthsign powers.
+
+  Takes NPC ids.
+whitelist_name: NPC Whitelist
+whitelist_desc: |
+  Whitelist guarantees that NPC will get racial powers, a birthsign and birthsign powers if they are enabled.
+
+  Takes NPC ids.
+whitelistFactionLeaders_name: Whitelist Faction Leaders
