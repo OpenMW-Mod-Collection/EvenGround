@@ -18,7 +18,7 @@ Compatible with any mod that adds, chances, or removes races and birthsigns.
 
 ## Requirements
 
-- NPC Powers Framework - load order irrelevant
+- [NPC Powers Framework](https://www.nexusmods.com/morrowind/mods/60178) - load order irrelevant
 
 ## Credits
 
