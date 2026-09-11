@@ -129,7 +129,7 @@ end
 
 ---@param actor openmw.GObject
 local function onActorActive(actor)
-    if not types.NPC.objectIsInstance(actor) and not types.Player.objectIsInstance(actor) then
+    if not types.NPC.objectIsInstance(actor) or types.Player.objectIsInstance(actor) then
         return
     elseif recordedNPCs[actor.id] then
         log("Skipping an already processed NPC: %s", actor.recordId)
