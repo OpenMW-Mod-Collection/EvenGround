@@ -234,6 +234,8 @@ I.Settings.registerRenderer('multiCheckbox', function(input, set, args)
          content = ui.content({
             labelText,
             interval,
+            interval,
+            interval,
             checkboxBox,
          }),
          events = {
