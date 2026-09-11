@@ -23,6 +23,7 @@ baseChance: Base Chance
 levelMult: Level Mult
 minChance: Min Chance
 maxChance: Max Chance
+guaranteedAt: Guaranteed at Level
 racialPower_name: Racial Powers
 racialPower_desc: |
   Rolled only if the race has powers.

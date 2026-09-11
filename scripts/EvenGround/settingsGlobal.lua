@@ -10,6 +10,7 @@ local l10n = core.l10n("EvenGround")
 ---@field levelMult number
 ---@field minChance number
 ---@field maxChance number
+---@field guaranteedAt number
 
 ---@param arg NewChanceArgument
 ---@return table
@@ -20,10 +21,11 @@ local function newChance(arg)
         description = arg.key .. "_desc",
         renderer = "multinumber",
         default = {
-            baseChance = arg.baseChance,
-            levelMult  = arg.levelMult,
-            minChance  = arg.minChance,
-            maxChance  = arg.maxChance,
+            baseChance   = arg.baseChance,
+            levelMult    = arg.levelMult,
+            minChance    = arg.minChance,
+            maxChance    = arg.maxChance,
+            guaranteedAt = arg.guaranteedAt,
         },
         argument = {
             keys = {
@@ -31,16 +33,19 @@ local function newChance(arg)
                 "levelMult",
                 "minChance",
                 "maxChance",
+                "guaranteedAt",
             },
             aliases = {
-                baseChance = l10n("baseChance"),
-                levelMult  = l10n("levelMult"),
-                minChance  = l10n("minChance"),
-                maxChance  = l10n("maxChance"),
+                baseChance   = l10n("baseChance"),
+                levelMult    = l10n("levelMult"),
+                minChance    = l10n("minChance"),
+                maxChance    = l10n("maxChance"),
+                guaranteedAt = l10n("guaranteedAt"),
             },
             min = {
                 minChance = 0,
                 maxChance = 0,
+                guaranteedAt = 1,
             },
             max = {
                 minChance = 100,
@@ -98,25 +103,28 @@ I.Settings.registerGroup {
     permanentStorage = true,
     settings = {
         newChance {
-            key        = "racialPower",
-            baseChance = -50,
-            levelMult  = 5,
-            minChance  = 5,
-            maxChance  = 50,
+            key          = "racialPower",
+            baseChance   = -50,
+            levelMult    = 5,
+            minChance    = 5,
+            maxChance    = 50,
+            guaranteedAt = 50,
         },
         newChance {
-            key        = "birthsign",
-            baseChance = 0,
-            levelMult  = 1.2,
-            minChance  = 5,
-            maxChance  = 50,
+            key          = "birthsign",
+            baseChance   = 0,
+            levelMult    = 1.2,
+            minChance    = 5,
+            maxChance    = 50,
+            guaranteedAt = 50,
         },
         newChance {
-            key        = "birthsignPower",
-            baseChance = 25,
-            levelMult  = 0,
-            minChance  = 0,
-            maxChance  = 100,
+            key          = "birthsignPower",
+            baseChance   = 25,
+            levelMult    = 0,
+            minChance    = 0,
+            maxChance    = 100,
+            guaranteedAt = 50,
         },
     },
 }

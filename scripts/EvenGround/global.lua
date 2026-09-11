@@ -45,9 +45,21 @@ end
 ---@param npcInfo NPCInfo
 ---@return boolean
 local function qualifies(config, npcInfo)
+    if npcInfo.blackslisted then
+        return false
+    end
+
+    if npcInfo.whitelisted then
+        return true
+    end
+
+    if npcInfo.level >= config.guaranteedAt then
+        return true
+    end
+
     local chance = config.baseChance + npcInfo.level * config.levelMult
     chance = math.max(config.minChance, math.min(config.maxChance, chance))
-    return not npcInfo.blackslisted and (npcInfo.whitelisted or math.random(100) > chance)
+    return math.random(100) > chance
 end
 
 ---@param npcInfo NPCInfo
