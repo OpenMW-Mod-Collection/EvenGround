@@ -1,6 +1,6 @@
 # Even Ground - Racial Powers and Birthsigns for NPCs (OpenMW)
 
-Allows NPCs to use their racial powers and receive birthsign boons. Compatible with any mod that adds, chances, or removes races and birthsigns.
+Allows NPCs to use their racial powers and receive birthsign boons. Compatible with any mod that adds, changes, or removes races and birthsigns.
 
 _For MWSE atlernative check [MWSE-Lua NPC Birthsigns](https://www.nexusmods.com/morrowind/mods/50337) by abot and [Morrowind Code Patch](https://www.nexusmods.com/morrowind/mods/19510) (for Racial Powers) by Hrnchamd_
 
@@ -14,7 +14,7 @@ Each roll is done only once for each NPC.
 
 ## Compatibility
 
-Compatible with any mod that adds, chances, or removes races and birthsigns.
+Compatible with any mod that adds, changes, or removes races and birthsigns.
 
 ## Requirements
 
