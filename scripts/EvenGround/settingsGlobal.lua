@@ -138,23 +138,43 @@ I.Settings.registerGroup {
     permanentStorage = true,
     settings = {
         {
-            key = "blacklist",
-            name = "blacklist_name",
-            description = "blacklist_desc",
+            key = "birthsignBlacklist",
+            name = "birthsignBlacklist_name",
+            description = "birthsignBlacklist_desc",
             renderer = "textSet",
+            default = {},
             argument = {
                 lower = true,
+                label = "Birthsign Id",
             },
-            default = {},
         },
         {
-            key = "whitelist",
-            name = "whitelist_name",
-            description = "whitelist_desc",
+            key = "spellBlacklist",
+            name = "spellBlacklist_name",
+            description = "spellBlacklist_desc",
             renderer = "textSet",
+            default = {},
             argument = {
                 lower = true,
+                label = "Spell Id",
             },
+        },
+        {
+            key = "npcBlacklist",
+            name = "npcBlacklist_name",
+            description = "npcBlacklist_desc",
+            renderer = "textSet",
+            default = {},
+            argument = {
+                lower = true,
+                label = "NPC Id",
+            },
+        },
+        {
+            key = "npcWhitelist",
+            name = "npcWhitelist_name",
+            description = "npcWhitelist_desc",
+            renderer = "textSet",
             default = {
                 umbra = true,
                 gaenor = true,
@@ -162,6 +182,11 @@ I.Settings.registerGroup {
                 ["snowy granius"] = true,
                 ["boss crito"] = true,
                 ["king hlaalu helseth"] = true,
+                fargoth = true,
+            },
+            argument = {
+                lower = true,
+                label = "NPC Id",
             },
         },
         {
@@ -169,6 +194,20 @@ I.Settings.registerGroup {
             name = 'whitelistFactionLeaders_name',
             renderer = 'checkbox',
             default = true,
+        },
+        {
+            key = "birthsignOverride",
+            name = "birthsignOverride_name",
+            description = "birthsignOverride_desc",
+            renderer = "textSet",
+            default = {
+                ["caius cosades>warwyrd"] = true,
+                ["fargoth>lady's favor"] = true,
+            },
+            argument = {
+                lower = true,
+                label = "NPC Id>Birthsign Id",
+            },
         },
     },
 }

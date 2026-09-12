@@ -8,6 +8,21 @@ local world = require("openmw.world")
 
 local settingsCache = require("scripts.EvenGround.utils.settingsCache")
 
+local birthsignRecords = types.Player.birthSigns.records
+local raceRecords = types.NPC.races.records
+local spellRecords = core.magic.spells.records
+local factionRecords = core.factions.records
+local birthsignOverrides = {}
+
+local function split(str, sep)
+    sep = sep or "%s"
+    local parts = {}
+    for part in string.gmatch(str, "([^" .. sep .. "]+)") do
+        parts[#parts + 1] = part
+    end
+    return parts
+end
+
 local toggles = settingsCache.new(
     storage.globalSection("SettingsEvenGround_toggles"),
     async
@@ -16,14 +31,35 @@ local chances = settingsCache.new(
     storage.globalSection("SettingsEvenGround_chances"),
     async
 )
+local sectionLists = storage.globalSection("SettingsEvenGround_lists")
 local lists = settingsCache.new(
-    storage.globalSection("SettingsEvenGround_lists"),
-    async
+    sectionLists,
+    async,
+    function(key)
+        if key == "birthsignBlacklist" then
+            birthsignRecords = types.Player.birthSigns.records
+            for signId, _ in pairs(sectionLists:get(key)) do
+                birthsignRecords[signId] = nil
+            end
+        elseif key == "spellBlacklist" then
+            spellRecords = core.magic.spells.records
+            for spellId, _ in pairs(sectionLists:get(key)) do
+                spellRecords[spellId] = nil
+            end
+        elseif key == "birthsignOverride" then
+            birthsignOverrides = {}
+            for compound, _ in pairs(sectionLists:get(key)) do
+                local fields = split(compound, ">")
+                birthsignOverrides[fields[1]] = fields[2]
+            end
+        end
+    end
 )
-local birthsignRecords = types.Player.birthSigns.records
-local raceRecords = types.NPC.races.records
-local spellRecords = core.magic.spells.records
-local factionRecords = core.factions.records
+
+for compound, _ in pairs(lists.birthsignOverride) do
+    local fields = split(compound, ">")
+    birthsignOverrides[fields[1]] = fields[2]
+end
 
 local recordedNPCs = {}
 
@@ -68,12 +104,22 @@ local function giveBirthsign(npcInfo)
         return
     end
 
+    local birthsign = birthsignRecords[math.random(#birthsignRecords)]
+    local birthsignOverride = birthsignOverrides[npcInfo.npc.recordId]
+    local wasWListed = npcInfo.whitelisted
+    local wasBListed = npcInfo.blackslisted
+    if birthsignOverride and birthsignRecords[birthsignOverride] then
+        birthsign = birthsignRecords[birthsignOverride]
+        -- yuck
+        npcInfo.whitelisted = true
+        npcInfo.blackslisted = false
+    end
+
     if not qualifies(chances.birthsign, npcInfo) then
         log("Birthsign roll failed for '%s'", npcInfo.npc.recordId)
         return
     end
 
-    local birthsign = birthsignRecords[math.random(#birthsignRecords)]
     log("Assigning birthsign '%s' to '%s'", birthsign.id, npcInfo.npc.recordId)
     local npcSpells = types.NPC.spells(npcInfo.npc)
     for _, spellId in ipairs(birthsign.spells) do
@@ -86,6 +132,9 @@ local function giveBirthsign(npcInfo)
             npcSpells:add(spellId)
         end
     end
+
+    npcInfo.whitelisted = wasWListed
+    npcInfo.blackslisted = wasBListed
 end
 
 ---@param npcInfo NPCInfo
@@ -107,11 +156,11 @@ end
 ---@param npc openmw.GObject
 ---@return boolean
 local function isWhitelisted(npc)
-    if lists.blacklist[npc.recordId] then
+    if lists.npcBlacklist[npc.recordId] then
         return false
     end
 
-    if lists.whitelist[npc.recordId] then
+    if lists.npcWhitelist[npc.recordId] then
         return true
     end
 
@@ -143,11 +192,12 @@ local function onActorActive(actor)
         level = types.NPC.stats.level(actor).current,
         record = types.NPC.records[actor.recordId],
         whitelisted = isWhitelisted(actor),
-        blacklisted = lists.blacklist[actor.recordId],
+        blacklisted = lists.npcBlacklist[actor.recordId],
     }
 
     giveRacialPowers(npcInfo)
     giveBirthsign(npcInfo)
+    log("")
 end
 
 local function onSave()
@@ -157,12 +207,12 @@ local function onSave()
 end
 
 local function onLoad(data)
-    if not data then return end
+    data = data or {}
     recordedNPCs = data.recordedNPCs or recordedNPCs
-end
 
-for _, actor in ipairs(world.activeActors) do
-    onActorActive(actor)
+    for _, actor in ipairs(world.activeActors) do
+        onActorActive(actor)
+    end
 end
 
 return {

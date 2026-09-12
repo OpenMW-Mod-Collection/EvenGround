@@ -61,12 +61,12 @@ local MORROWIND_TEXT_STATES = {
    enabledInteracted  = { color = colorFromGMST('fontcolor_color_normal_pressed'), alpha = 1.0 },
 }
 local MORROWIND_CHECK_STATES = {
-   disabled           = { color = util.color.rgb(1,1,1), alpha = 0 },
-   disabledHover      = { color = util.color.rgb(1,1,1), alpha = 0 },
-   disabledInteracted = { color = util.color.rgb(1,1,1), alpha = 0 },
-   enabled            = { color = util.color.rgb(1,1,1), alpha = 1.0 },
-   enabledHover       = { color = util.color.rgb(1,1,1), alpha = 1.0 },
-   enabledInteracted  = { color = util.color.rgb(1,1,1), alpha = 1.0 },
+   disabled           = { color = util.color.rgb(1, 1, 1), alpha = 0 },
+   disabledHover      = { color = util.color.rgb(1, 1, 1), alpha = 0 },
+   disabledInteracted = { color = util.color.rgb(1, 1, 1), alpha = 0 },
+   enabled            = { color = util.color.rgb(1, 1, 1), alpha = 1.0 },
+   enabledHover       = { color = util.color.rgb(1, 1, 1), alpha = 1.0 },
+   enabledInteracted  = { color = util.color.rgb(1, 1, 1), alpha = 1.0 },
 }
 local COLORFUL_TEXT_STATES = {
    disabled           = { color = util.color.rgb(0.95, 0.35, 0.35), alpha = 1.0 },
@@ -77,12 +77,12 @@ local COLORFUL_TEXT_STATES = {
    enabledInteracted  = { color = util.color.rgb(0.95, 1.00, 0.95), alpha = 1.0 },
 }
 local COLORFUL_CHECK_STATES = {
-   disabled           = { color = util.color.rgb(1,1,1), alpha = 0 },
-   disabledHover      = { color = util.color.rgb(1,1,1), alpha = 0 },
-   disabledInteracted = { color = util.color.rgb(1,1,1), alpha = 0 },
-   enabled            = { color = util.color.rgb(1,1,1), alpha = 1.0 },
-   enabledHover       = { color = util.color.rgb(1,1,1), alpha = 1.0 },
-   enabledInteracted  = { color = util.color.rgb(1,1,1), alpha = 1.0 },
+   disabled           = { color = util.color.rgb(1, 1, 1), alpha = 0 },
+   disabledHover      = { color = util.color.rgb(1, 1, 1), alpha = 0 },
+   disabledInteracted = { color = util.color.rgb(1, 1, 1), alpha = 0 },
+   enabled            = { color = util.color.rgb(1, 1, 1), alpha = 1.0 },
+   enabledHover       = { color = util.color.rgb(1, 1, 1), alpha = 1.0 },
+   enabledInteracted  = { color = util.color.rgb(1, 1, 1), alpha = 1.0 },
 }
 
 local padding = {
@@ -150,13 +150,9 @@ I.Settings.registerRenderer('multiCheckbox', function(input, set, args)
       end
    end
 
-   local translate
-   if args.l10n == "none" or args.l10n == nil then
-      translate = function(key) return key end
-   else
-      local l10n = core.l10n(args.l10n)
-      translate = function(key) return l10n(key) end
-   end
+   local translate = args.l10n
+       and core.l10n(args.l10n)
+       or function(key) return key end
 
    local body = {
       type = ui.TYPE.Flex,

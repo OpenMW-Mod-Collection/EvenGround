@@ -3,16 +3,32 @@
 local I = require("openmw.interfaces")
 local ui = require("openmw.ui")
 local async = require("openmw.async")
+local util = require("openmw.util")
+local core = require("openmw.core")
 
 ---@class TextSetArgs
 ---@field lower boolean|nil    If true, all input text will be lowered.
 ---                            It does not lower your default values due to how Lua API works.
 ---                            Default: false
+---@field l10n string|nil      L10n key for the label
+---@field label string|nil     Label of the input field
+---@field labelSize number|nil Label size. Default: 12
+---@field width number|nil     Set custom width for the renderer
+
+local interval = {
+    template = I.MWUI.templates.interval
+}
 
 I.Settings.registerRenderer('textSet', function(input, set, arg)
     ---@type TextSetArgs
     arg = arg or {}
     local lower = arg.lower == true
+    local inputSize = arg.width and util.vector2(arg.width, 0)
+    local translate = arg.l10n
+        and core.l10n(arg.l10n)
+        or function(key) return key end
+    local label = arg.label and translate(arg.label) or ""
+    local labelSize = arg.labelSize or 12
 
     if not input then
         input = {}
@@ -23,6 +39,7 @@ I.Settings.registerRenderer('textSet', function(input, set, arg)
         type = ui.TYPE.Flex,
         props = {
             horizontal = true,
+            arrange = ui.ALIGNMENT.End,
         },
         content = ui.content({}),
         external = {
@@ -30,7 +47,7 @@ I.Settings.registerRenderer('textSet', function(input, set, arg)
         },
     }
 
-    local inputText = ''
+    local inputText = ""
 
     header.content:add {
         template = I.MWUI.templates.box,
@@ -44,7 +61,9 @@ I.Settings.registerRenderer('textSet', function(input, set, arg)
                 events = {
                     mouseClick = async:callback(function()
                         -- no empty strings allowed
-                        if inputText == "" then return end
+                        if inputText == "" then
+                            return
+                        end
 
                         -- no duplicates allowed (map key already true)
                         if input[inputText] then
@@ -60,26 +79,42 @@ I.Settings.registerRenderer('textSet', function(input, set, arg)
         } },
     }
     header.content:add {
-        template = I.MWUI.templates.padding,
-        external = {
-            grow = 1,
-        },
+        template = I.MWUI.templates.interval,
     }
     header.content:add {
-        template = I.MWUI.templates.box,
-        content = ui.content { {
-            template = I.MWUI.templates.padding,
-            content = ui.content { {
-                template = I.MWUI.templates.textEditLine,
-                events = {
-                    textChanged = async:callback(function(text)
-                        inputText = lower
-                            and text:lower()
-                            or text
-                    end),
-                } },
-            } },
+        type = ui.TYPE.Flex,
+        props = {
+            horizontal = false
         },
+        content = ui.content {
+            {
+                template = I.MWUI.templates.textNormal,
+                props = {
+                    text = label,
+                    textSize = labelSize,
+                },
+            },
+            interval,
+            {
+                template = I.MWUI.templates.box,
+                content = ui.content { {
+                    template = I.MWUI.templates.padding,
+                    content = ui.content { {
+                        template = I.MWUI.templates.textEditLine,
+                        props = {
+                            size = inputSize,
+                        },
+                        events = {
+                            textChanged = async:callback(function(text)
+                                inputText = lower
+                                    and text:lower()
+                                    or text
+                            end),
+                        }
+                    } },
+                } },
+            }
+        }
     }
 
     local body = {
@@ -98,9 +133,7 @@ I.Settings.registerRenderer('textSet', function(input, set, arg)
     table.sort(sortedKeys)
 
     for _, text in ipairs(sortedKeys) do
-        body.content:add {
-            template = I.MWUI.templates.padding,
-        }
+        body.content:add(interval)
         body.content:add {
             type = ui.TYPE.Flex,
             props = {

@@ -38,14 +38,21 @@ birthsignPower_desc: |
   If there are multiple powers, each is rolled individually.
 
 lists_groupName: Lists
-blacklist_name: NPC Blacklist
-blacklist_desc: |
+birthsignOverride_name: Birthsign Override
+birthsignOverride_desc: |
+  Predefine which NPCs get which Birthsigns with guaranteed Birthsign Powers.
+
+  Respects the Toggles, overrides the NPC Blacklist.
+
+  Input format: "caius cosades>warwyrd"
+npcBlacklist_name: NPC Blacklist
+npcBlacklist_desc: >
   Blacklist NPCs from getting any racial powers, a birthsign and birthsign powers.
-
-  Takes NPC ids.
-whitelist_name: NPC Whitelist
-whitelist_desc: |
+npcWhitelist_name: NPC Whitelist
+npcWhitelist_desc: >
   Whitelist guarantees that NPC will get racial powers, a birthsign and birthsign powers if they are enabled.
-
-  Takes NPC ids.
 whitelistFactionLeaders_name: Whitelist Faction Leaders
+birthsignBlacklist_name: Birthsign Blacklist
+birthsignBlacklist_desc: Remove any Birthsigns from the pool.
+spellBlacklist_name: Spell Blacklist
+spellBlacklist_desc: Remove any Powers or Abilities from the pool.
