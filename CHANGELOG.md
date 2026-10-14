@@ -1,5 +1,9 @@
 # Even Ground - Racial Powers and Birthsigns for NPCs (OpenMW)
 
+## 1.2.1
+
+- Fixed chance check being inverted
+
 ## 1.2
 
 - Added new settings

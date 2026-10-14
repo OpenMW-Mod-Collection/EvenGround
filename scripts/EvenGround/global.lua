@@ -95,7 +95,7 @@ local function qualifies(config, npcInfo)
 
     local chance = config.baseChance + npcInfo.level * config.levelMult
     chance = math.max(config.minChance, math.min(config.maxChance, chance))
-    return math.random(100) > chance
+    return math.random(100) <= chance
 end
 
 ---@param npcInfo NPCInfo
